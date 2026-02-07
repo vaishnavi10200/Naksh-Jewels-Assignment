@@ -1,4 +1,5 @@
 import './App.css';
+import Header from './Header';
 import ProductCard from './ProductCard';
 
 function App() {
@@ -23,12 +24,14 @@ function App() {
     }
   ];
   return (
-    <div className="App">
-      <h1>Naksh Jewels</h1>
-      <div className="product-list">
-        {products.map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+    <div>
+      <Header />
+      <div className="App">
+        <div className="product-list">
+          {products.map(product => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
       </div>
     </div>
   );
