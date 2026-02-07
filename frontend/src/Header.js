@@ -1,12 +1,15 @@
-function Header() {
+function Header({ cartCount }) {
   return (
     <header style={{
-      background: '#333',
-      color: 'white',
+      background: '#f8f7f7',
+      color: 'black',
       padding: '20px',
-      marginBottom: '30px'
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center'
     }}>
       <h1 style={{ margin: 0 }}>Naksh Jewels</h1>
+      <div>Cart: {cartCount} items</div>
     </header>
   );
 }

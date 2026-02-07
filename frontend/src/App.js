@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import './App.css';
 import Header from './Header';
 import ProductCard from './ProductCard';
 
 function App() {
+  const [cart, setCart] = useState([]);
+
   const products = [
     {
       id: 1,
@@ -23,13 +26,28 @@ function App() {
       image: "Silver-Bracelet.jpg"
     }
   ];
+
+  const addToCart = (product) => {
+    const existing = cart.find(item => item.id === product.id);
+    if (existing) {
+      setCart(cart.map(item => 
+        item.id === product.id 
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      ));
+    } else {
+      setCart([...cart, { ...product, quantity: 1 }]);
+    }
+  };
+
+
   return (
     <div>
-      <Header />
+      <Header cartCount={cart.length}/>
       <div className="App">
         <div className="product-list">
           {products.map(product => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} onAddToCart={addToCart}/>
           ))}
         </div>
       </div>
