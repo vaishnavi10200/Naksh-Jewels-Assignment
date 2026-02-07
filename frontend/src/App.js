@@ -1,4 +1,5 @@
 import './App.css';
+import ProductCard from './ProductCard';
 
 function App() {
   const products = [
@@ -26,12 +27,7 @@ function App() {
       <h1>Naksh Jewels</h1>
       <div className="product-list">
         {products.map(product => (
-          <div key={product.id} className="product">
-            <img src={product.image} alt={product.name} />
-            <h3>{product.name}</h3>
-            <p>₹{product.price}</p>
-            <button>Add to Cart</button>
-          </div>
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </div>
