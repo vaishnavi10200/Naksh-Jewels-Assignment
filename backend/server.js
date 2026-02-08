@@ -31,6 +31,23 @@ app.get('/products', (req, res) => {
   res.json(products);
 });
 
+let cart = [];
+
+app.post('/cart', (req, res) => {
+  const { productId, quantity } = req.body;
+  
+  // find if product already in cart
+  const existingItem = cart.find(item => item.productId === productId);
+  
+  if (existingItem) {
+    existingItem.quantity += quantity;
+  } else {
+    cart.push({ productId, quantity });
+  }
+  
+  res.json({ message: 'Item added to cart', cart });
+});
+
 app.listen(5000, () => {
   console.log('Server running on port 5000');
 });
