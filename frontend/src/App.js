@@ -13,9 +13,13 @@ function App() {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    // fetch products from backend
-    axios.get('http://localhost:5000/products')
+      console.log('Fetching products from backend...');
+      const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+      console.log('API URL:', API_URL);
+
+      axios.get(`${API_URL}/products`)
       .then(response => {
+        console.log('Products received:', response.data);
         setProducts(response.data);
         setLoading(false);
       })
