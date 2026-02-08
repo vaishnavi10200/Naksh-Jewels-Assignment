@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require('express');
 const cors = require('cors');
 const { validateCart } = require('./middleware');
@@ -31,23 +32,38 @@ const products = [
 let cart = [];
 
 app.get('/products', (req, res) => {
-  res.json(products);
+  try {
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch products' });
+  }
 });
 
 app.post('/cart', validateCart, (req, res) => {
-  const { productId, quantity } = req.body;
-  
-  const existingItem = cart.find(item => item.productId === productId);
-  
-  if (existingItem) {
-    existingItem.quantity += quantity;
-  } else {
-    cart.push({ productId, quantity });
+  try {
+    const { productId, quantity } = req.body;
+    
+    const existingItem = cart.find(item => item.productId === productId);
+    
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      cart.push({ productId, quantity });
+    }
+    
+    res.json({ message: 'Item added to cart', cart });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to add to cart' });
   }
-  
-  res.json({ message: 'Item added to cart', cart });
 });
 
-app.listen(5000, () => {
-  console.log('Server running on port 5000');
+// error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong' });
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
