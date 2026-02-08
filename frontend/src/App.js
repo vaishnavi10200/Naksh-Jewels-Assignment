@@ -1,11 +1,12 @@
-//import { useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 import Header from './Header';
 import ProductCard from './ProductCard';
+import Cart from './Cart';
 import { useCart } from './CartContext';
 
 function App() {
-  //const [cart, setCart] = useState([]);
+  const [currentPage, setCurrentPage] = useState('products');
   const { addToCart } = useCart();
   const products = [
     {
@@ -28,34 +29,24 @@ function App() {
     }
   ];
 
-  // const addToCart = (product) => {
-  //   const existing = cart.find(item => item.id === product.id);
-  //   if (existing) {
-  //     setCart(cart.map(item => 
-  //       item.id === product.id 
-  //         ? { ...item, quantity: item.quantity + 1 }
-  //         : item
-  //     ));
-  //   } else {
-  //     setCart([...cart, { ...product, quantity: 1 }]);
-  //   }
-  // };
-
-
   return (
     <div>
-      <Header />
-      <div className="App">
-        <div className="product-list">
-          {products.map(product => (
-            <ProductCard 
-              key={product.id} 
-              product={product}
-              onAddToCart={addToCart}
-            />
-          ))}
+      <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      {currentPage === 'products' ? (
+        <div className="App">
+          <div className="product-list">
+            {products.map(product => (
+              <ProductCard 
+                key={product.id} 
+                product={product}
+                onAddToCart={addToCart}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <Cart />
+      )}
     </div>
   );
 }
