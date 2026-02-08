@@ -1,4 +1,7 @@
-function Header({ cartCount }) {
+import { useCart } from './CartContext';
+
+function Header() {
+  const { cart } = useCart();
   return (
     <header style={{
       background: '#f8f7f7',
@@ -9,7 +12,7 @@ function Header({ cartCount }) {
       alignItems: 'center'
     }}>
       <h1 style={{ margin: 0 }}>Naksh Jewels</h1>
-      <div>Cart: {cartCount} items</div>
+      <div>Cart: {cart.length} items</div>
     </header>
   );
 }
