@@ -161,7 +161,7 @@ naksh-jewels/
 ## Screenshots
 
 ### Products Page
-![Products](screenshots\products-localhost.png)
+![Products](screenshots/products-localhost.png)
 
 ### Cart
 ![Cart](screenshots/cart.png)
