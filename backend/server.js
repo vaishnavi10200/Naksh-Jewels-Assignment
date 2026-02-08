@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { validateCart } = require('./middleware');
 
 const app = express();
 
@@ -27,16 +28,15 @@ const products = [
   }
 ];
 
+let cart = [];
+
 app.get('/products', (req, res) => {
   res.json(products);
 });
 
-let cart = [];
-
-app.post('/cart', (req, res) => {
+app.post('/cart', validateCart, (req, res) => {
   const { productId, quantity } = req.body;
   
-  // find if product already in cart
   const existingItem = cart.find(item => item.productId === productId);
   
   if (existingItem) {
