@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 import Header from './Header';
 import ProductCard from './ProductCard';
@@ -7,27 +8,26 @@ import { useCart } from './CartContext';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('products');
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { addToCart } = useCart();
-  const products = [
-    {
-      id: 1,
-      name: "Gold Ring",
-      price: 15000,
-      image: "Gold-Ring.jpg"
-    },
-    {
-      id: 2,
-      name: "Diamond Necklace",
-      price: 50000,
-      image: "Diamond-Necklace.png"
-    },
-    {
-      id: 3,
-      name: "Silver Bracelet",
-      price: 8000,
-      image: "Silver-Bracelet.jpg"
-    }
-  ];
+
+  useEffect(() => {
+    // fetch products from backend
+    axios.get('http://localhost:5000/products')
+      .then(response => {
+        setProducts(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching products:', error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <div className="App"><h2>Loading...</h2></div>;
+  }
 
   return (
     <div>
